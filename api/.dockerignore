@@ -6,3 +6,4 @@ Dockerfile
 README.md
 .ruff_cache
 **/.env
+.venv
