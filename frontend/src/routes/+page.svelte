@@ -28,10 +28,11 @@
 
 	 if (parcel.success) {
 		 dialog_title.innerText = 'Opened ParcelBox!';
+		 dialog_message.innerText = '"' + parcel.content + '"';
 	 } else {
 		 dialog_title.innerText = 'Failed opening ParcelBox';
+		 dialog_message.innerText = '[!] ' + parcel.content;
 	 }
-	 dialog_message.innerText = '"' + parcel.content + '"';
 	 dialog.showModal();
  }
 
