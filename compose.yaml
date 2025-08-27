@@ -1,0 +1,22 @@
+---
+services:
+    parcelbox_nginx:
+        image: nginx:1.29-alpine-slim
+        container_name: parcelbox-nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+    parcelbox_api:
+        build: api
+        container_name: parcelbox-api
+        environment:
+            FLAG: someflag
+        ports:
+            - 8000:8000
+
+    parcelbox_frontend:
+        build: frontend
+        container_name: parcelbox-frontend
+        ports:
+            - 3000:3000

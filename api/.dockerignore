@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.gitattributes
+README.md
+.ruff_cache
+**/.env
