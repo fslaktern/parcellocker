@@ -12,7 +12,7 @@ while 1:
     p = getPrime(128)
     q = getPrime(128)
     n = p * q
-    if q != p and len(bin(n)) - 2 >= 256:
+    if q != p and n.bit_length() >= 256:
         break
 
 e = 2 ** 16 + 1
