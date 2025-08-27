@@ -20,8 +20,6 @@ e = 2 ** 16 + 1
 phi = (p - 1) * (q - 1)
 d = pow(e, -1, phi)
 
-print(p, q, d, n, e)
-
 # 3 boxes, 2 columns and 6 rows
 package_count = 3 * 2 * 6
 package_store: list[str] = [
@@ -102,7 +100,7 @@ def open_box(id: int, nonce: str, sig: str):
 
 @app.get("/my_parcel")
 def get_own_parcel():
-    id = package_store.index("Aldri for sent å snu")
+    id = package_store.index("Den som gir seg, har tapt på forhånd")
     assert id >= 0
 
     nonce = bytes_to_long(os.urandom(8))
