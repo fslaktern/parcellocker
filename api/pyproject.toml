@@ -5,7 +5,7 @@ description = "ParcelBox backend API server"
 authors = [
     { name = "fslaktern" }
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]",
     "pycryptodome"
