@@ -1,5 +1,6 @@
 <script lang="ts">
  import { onMount } from 'svelte';
+
  let api_server: string = '';
  let dialog: object = {};
  let dialog_title: object = {};
@@ -14,16 +15,10 @@
 
  async function open_box(elem) {
 	 let signature: string = elem.dataset.signature;
-	 let nonce: string = elem.dataset.nonce;
 	 let id: string = elem.id;
-	 let url: string = api_server;
-	 url += '/api/open/' + id.toString();
-	 url +=
-		 '?' +
-		 new URLSearchParams({
-			 sig: signature,
-			 nonce: nonce
-		 }).toString();
+	 let sig: string = new URLSearchParams({ sig: signature }).toString()
+	 let url: string = api_server + '/api/open/' + id.toString() + '?' + sig;
+
 	 const parcel = await fetch(url).then((res) => res.json());
 
 	 if (parcel.success) {
@@ -44,12 +39,10 @@
 	 box.classList.add('is-error');
 	 box.disabled = null;
 	 box.dataset.signature = parcel['sig'];
-	 box.dataset.nonce = parcel['nonce'];
  }
 </script>
 
-<!-- todo align middle -->
-<dialog class="absolute left-1/2 top-1/2 -translate-1/2 p-8 nes-dialog" id="box-dialog">
+<dialog class="absolute left-1/2 top-1/2 -translate-1/2 p-8 nes-dialog max-w-32" id="box-dialog">
 	<form method="dialog" class="flex flex-col gap-4">
 		<b class="title" id="dialog-title"></b>
 		<p id="dialog-message"></p>

@@ -15,7 +15,7 @@ while 1:
     if q != p and n.bit_length() >= 256:
         break
 
-e = 2 ** 16 + 1
+e = 2**16 + 1
 
 phi = (p - 1) * (q - 1)
 d = pow(e, -1, phi)
@@ -64,38 +64,44 @@ random.shuffle(package_store)
 assert len(package_store) == package_count
 
 
-def as_message(id: int, nonce: int):
-    id_bytes = f"{id:02d}".encode("utf-8")
-    separator = b"."
-    nonce_bytes = long_to_bytes(nonce)
-
-    message = b"".join([id_bytes, separator, nonce_bytes])
-    return bytes_to_long(message)
+def as_message(id: int) -> int:
+    return bytes_to_long(f"{id:02d}".encode("utf-8"))
 
 
-def verify(id: int, nonce: int, sig: int) -> bool:
-    expected_message = as_message(id, nonce)
-    actual_message = pow(sig, e, n)
-    print(long_to_bytes(expected_message), long_to_bytes(actual_message))
-    return expected_message == actual_message
+def verify(id: int, sig: int) -> bool:
+    return as_message(id) == pow(sig, e, n)
 
 
 @app.get("/open/{id}")
-def open_box(id: int, nonce: str, sig: str):
-    signature_nonce = int(nonce, 16)
-    signature = int(sig, 16)
-    if verify(id, signature_nonce, signature):
+def open_box(id: int, sig: str):
+    if id not in range(len(package_store)):
         return {
             "id": id,
-            "success": True,
-            "content": package_store[id],
+            "success": False,
+            "content": "No ParcelBox exists with the given ID",
         }
-    else:
+
+    try:
+        signature = int(sig, 16)
+    except ValueError:
+        return {
+            "id": id,
+            "success": False,
+            "content": "Failed converting [sig] from hex to decimal",
+        }
+
+    if not verify(id, signature):
         return {
             "id": id,
             "success": False,
             "content": "Signature verification failed",
         }
+
+    return {
+        "id": id,
+        "success": True,
+        "content": package_store[id],
+    }
 
 
 @app.get("/my_parcel")
@@ -103,13 +109,11 @@ def get_own_parcel():
     id = package_store.index("Den som gir seg, har tapt på forhånd")
     assert id >= 0
 
-    nonce = bytes_to_long(os.urandom(8))
-    m = as_message(id, nonce)
+    m = as_message(id)
     sig = pow(m, d, n)
 
     return {
         "id": id,
-        "nonce": hex(nonce),
         "sig": hex(sig),
         "n": hex(n),
         "e": hex(e),
