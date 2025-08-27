@@ -22,11 +22,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 FROM base
 
 COPY --from=builder /app /app
-RUN chmod 755 /app/src/parcelbox
+RUN chmod 755 /app/src/parcellocker
 
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:8000/my_parcel || exit 1
 # guest user
 USER 405
 EXPOSE 8000
-CMD	["/app/.venv/bin/fastapi","run","/app/src/parcelbox/main.py","--port","8000"]
+CMD	["/app/.venv/bin/fastapi","run","/app/src/parcellocker/main.py","--port","8000"]

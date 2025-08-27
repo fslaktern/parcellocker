@@ -1,7 +1,7 @@
 [project]
-name = "parcelbox"
+name = "parcellocker"
 version = "1.0.0"
-description = "ParcelBox backend API server"
+description = "Parcellocker backend API server"
 authors = [
     { name = "fslaktern" }
 ]
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-api = "src.parcelbox.main:main"
+api = "src.parcellocker.main:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]

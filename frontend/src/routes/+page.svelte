@@ -13,20 +13,20 @@
 	 dialog_message = document.getElementById('dialog-message');
  });
 
- async function open_box(elem) {
+ async function open_slot(elem) {
 	 let signature: string = elem.dataset.signature;
 	 let id: string = elem.id;
 	 let sig: string = new URLSearchParams({ sig: signature }).toString()
 	 let url: string = api_server + '/api/open/' + id.toString() + '?' + sig;
 
-	 const parcel = await fetch(url).then((res) => res.json());
+	 const response = await fetch(url).then((res) => res.json());
 
 	 if (parcel.success) {
-		 dialog_title.innerText = 'Opened ParcelBox!';
-		 dialog_message.innerText = '"' + parcel.content + '"';
+		 dialog_title.innerText = 'Opened parcel:';
+		 dialog_message.innerText = '"' + response.content + '"';
 	 } else {
-		 dialog_title.innerText = 'Failed opening ParcelBox';
-		 dialog_message.innerText = '[!] ' + parcel.content;
+		 dialog_title.innerText = 'Failed opening slot:';
+		 dialog_message.innerText = '[!] ' + response.content;
 	 }
 	 dialog.showModal();
  }
@@ -42,7 +42,7 @@
  }
 </script>
 
-<dialog class="absolute left-1/2 top-1/2 -translate-1/2 p-8 nes-dialog max-w-32" id="box-dialog">
+<dialog class="absolute left-1/2 top-1/2 -translate-1/2 p-8 nes-dialog max-w-128" id="box-dialog">
 	<form method="dialog" class="flex flex-col gap-4">
 		<b class="title" id="dialog-title"></b>
 		<p id="dialog-message"></p>
@@ -74,7 +74,7 @@
 					<div class="w-full min-w-fit mt-8 flex flex-col gap-4">
 						<p>Pickup location:<br />NNS HQ, Norway</p>
 						<button class="nes-btn is-primary w-full min-w-fit p-8" on:click={get_my_parcel}
-						>Open ParcelBox</button
+						>Open slot</button
 									   >
 					</div>
 				</div>
@@ -85,14 +85,14 @@
 				class="grid grid-cols-2 gap-4 w-fit justify-center items-center nes-container bg-gray-300 translate-y-48"
 			>
 				<div class="col-span-full justify-center items-center p-2">
-					<h1 class="title text-red-700">ParcelBox</h1>
+					<h1 class="title text-red-700">ParcelLocker</h1>
 				</div>
 				{#each { length: 2 * 6 }, id}
 					<button
 						id={id + 2 * 6 * i}
 						   disabled="true"
 						   class="w-32 h-12 nes-btn is-disabled"
-						   on:click={(e) => open_box(e.target)}>+</button
+						   on:click={(e) => open_slot(e.target)}>+</button
 																 >
 				{/each}
 				<div class="col-span-full p-2 h-16"></div>
