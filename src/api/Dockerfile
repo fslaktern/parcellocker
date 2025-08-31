@@ -29,4 +29,4 @@ HEALTHCHECK --interval=30s --timeout=3s \
 # guest user
 USER 405
 EXPOSE 8000
-CMD	["/app/.venv/bin/fastapi","run","/app/src/parcellocker/main.py","--port","8000"]
+CMD	["/app/.venv/bin/fastapi","run","/app/src/parcellocker/main.py","--port","8000","--root-path","/api"]

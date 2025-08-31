@@ -7,13 +7,12 @@
  let dialog_message: object = {};
 
  onMount(() => {
-	 api_server = '';
 	 dialog = document.getElementById('box-dialog');
 	 dialog_title = document.getElementById('dialog-title');
 	 dialog_message = document.getElementById('dialog-message');
  });
 
- async function open_slot(elem) {
+ async function openSlot(elem) {
 	 let signature: string = elem.dataset.signature;
 	 let id: string = elem.id;
 	 let sig: string = new URLSearchParams({ sig: signature }).toString()
@@ -21,7 +20,7 @@
 
 	 const response = await fetch(url).then((res) => res.json());
 
-	 if (parcel.success) {
+	 if (response.success) {
 		 dialog_title.innerText = 'Opened parcel:';
 		 dialog_message.innerText = '"' + response.content + '"';
 	 } else {
@@ -31,14 +30,14 @@
 	 dialog.showModal();
  }
 
- async function get_my_parcel() {
-	 const parcel = await fetch(api_server + '/api/my_parcel').then((res) => res.json());
-	 let box = document.getElementById(parcel['id']);
+ async function getMyParcel() {
+	 const response = await fetch(api_server + '/api/my_parcel').then((res) => res.json());
+	 let box = document.getElementById(response['id']);
 
 	 box.classList.remove('is-disabled');
 	 box.classList.add('is-error');
 	 box.disabled = null;
-	 box.dataset.signature = parcel['sig'];
+	 box.dataset.signature = response['sig'];
  }
 </script>
 
@@ -73,7 +72,7 @@
 					<b class="w-full min-w-fit title">Your parcel is ready for pickup!</b>
 					<div class="w-full min-w-fit mt-8 flex flex-col gap-4">
 						<p>Pickup location:<br />NNS HQ, Norway</p>
-						<button class="nes-btn is-primary w-full min-w-fit p-8" on:click={get_my_parcel}
+						<button class="nes-btn is-primary w-full min-w-fit p-8" on:click={getMyParcel}
 						>Open slot</button
 									   >
 					</div>
@@ -92,7 +91,7 @@
 						id={id + 2 * 6 * i}
 						   disabled="true"
 						   class="w-32 h-12 nes-btn is-disabled"
-						   on:click={(e) => open_slot(e.target)}>+</button
+						   on:click={(e) => openSlot(e.target)}>+</button
 																 >
 				{/each}
 				<div class="col-span-full p-2 h-16"></div>
