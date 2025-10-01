@@ -19,7 +19,7 @@ print(d, e, n)
 
 
 def sign(id: int) -> int:
-    m = bytes_to_long(f"{id:02d}".encode("utf-8"))
+    m = bytes_to_long(str(id).encode("utf-8"))
     return pow(m, d, n)
 
 

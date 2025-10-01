@@ -65,7 +65,7 @@ assert len(package_store) == package_count
 
 
 def as_message(id: int) -> int:
-    return bytes_to_long(f"{id:02d}".encode("utf-8"))
+    return bytes_to_long(str(id).encode("utf-8"))
 
 
 def verify(id: int, sig: int) -> bool:
